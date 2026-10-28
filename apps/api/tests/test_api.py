@@ -146,3 +146,18 @@ def test_dashboard_metrics_and_csv_export():
     assert csv_res.status_code == 200
     assert "text/csv" in csv_res.headers["content-type"]
     assert "Reference,Title" in csv_res.text
+
+def test_background_jobs_and_idempotency():
+    from app.database import SessionLocal
+    from app.services.jobs import process_expiration_and_obligations
+    db = SessionLocal()
+    try:
+        # First execution
+        res1 = process_expiration_and_obligations(db)
+        assert isinstance(res1, dict)
+        # Second execution: idempotency verification (should not duplicate notifications)
+        res2 = process_expiration_and_obligations(db)
+        assert res2["expiring_warnings"] == 0
+    finally:
+        db.close()
+

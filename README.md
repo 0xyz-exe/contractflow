@@ -146,9 +146,10 @@ tests/test_api.py::test_contract_list_authenticated PASSED               [ 44%]
 tests/test_api.py::test_contract_creation_and_reference_generation PASSED [ 55%]
 tests/test_api.py::test_submit_approval_workflow PASSED                  [ 66%]
 tests/test_api.py::test_approval_decision_requires_rationale PASSED      [ 77%]
-tests/test_api.py::test_templates_and_clauses_listing PASSED             [ 88%]
-tests/test_api.py::test_dashboard_metrics_and_csv_export PASSED          [100%]
-======================= 9 passed in 7.46s =======================
+tests/test_api.py::test_templates_and_clauses_listing PASSED             [ 80%]
+tests/test_api.py::test_dashboard_metrics_and_csv_export PASSED          [ 90%]
+tests/test_api.py::test_background_jobs_and_idempotency PASSED           [100%]
+======================= 10 passed in 6.28s =======================
 ```
 
 ---
