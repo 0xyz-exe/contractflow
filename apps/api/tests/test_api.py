@@ -161,3 +161,16 @@ def test_background_jobs_and_idempotency():
     finally:
         db.close()
 
+def test_email_service_console_mode_and_dispatch():
+    from app.services.email import send_notification_email
+    result = send_notification_email(
+        recipient_email="test.lawyer@contractflow.org",
+        subject="Audit Notice Required",
+        message_text="Please review clause 8.3 within 48 hours.",
+        link_url="http://localhost:5185/contracts/1"
+    )
+    assert result["mode"] == "console_preview"
+    assert result["recipient"] == "test.lawyer@contractflow.org"
+    assert result["subject"] == "Audit Notice Required"
+
+

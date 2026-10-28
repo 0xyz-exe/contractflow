@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: contractflow-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME:-localhost}
+      - ACME_EMAIL=${ACME_EMAIL:-admin@contractflow.org}
+    volumes:
+      - ./infrastructure/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+      - web
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: contractflow-api-prod
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://contractflow:${POSTGRES_PASSWORD:-securepassword}@db:5432/contractflow_db
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production-to-a-secure-random-secret-key-32-chars-min}
+      - STORAGE_DIR=/app/storage
+      - SMTP_ENABLED=${SMTP_ENABLED:-false}
+      - SMTP_HOST=${SMTP_HOST:-smtp.sendgrid.net}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_FROM=${SMTP_FROM:-no-reply@contractflow.org}
+      - SMTP_TLS=${SMTP_TLS:-true}
+    volumes:
+      - contractflow_storage:/app/storage
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: contractflow-web-prod
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  db:
+    image: postgres:16-alpine
+    container_name: contractflow-db-prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: contractflow_db
+      POSTGRES_USER: contractflow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-securepassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  contractflow_storage:
+  postgres_data:
+  caddy_data:
+  caddy_config:

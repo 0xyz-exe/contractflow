@@ -2,7 +2,8 @@ import json
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from app.models.models import AuditEvent, Notification, Contract
+from app.models.models import AuditEvent, Notification, Contract, User
+from app.services.email import send_notification_email
 
 def log_audit_event(
     db: Session,
@@ -47,6 +48,17 @@ def create_notification(
     )
     db.add(notif)
     db.commit()
+
+    # Optional external email dispatch
+    user = db.query(User).filter(User.id == user_id).first()
+    if user and user.email:
+        send_notification_email(
+            recipient_email=user.email,
+            subject=title,
+            message_text=message,
+            link_url=link_url
+        )
+
     return notif
 
 def generate_contract_ref(db: Session, organization_id: int) -> str:

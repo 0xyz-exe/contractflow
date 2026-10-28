@@ -46,6 +46,8 @@
 - **Contractual Obligations & Deadlines:** Overdue tracking, milestone recurrence, and compliance checklists.
 - **Append-Only Tamper-Evident Audit Trail:** Immutable records of all actions, actors, timestamps, and state changes.
 - **Data Export:** Instant CSV streaming of authorized contracts.
+- **Transactional Notifications (SendGrid / Amazon SES):** Automated email dispatch with development console fallback and STARTTLS support.
+- **Production TLS Termination:** Ready-to-deploy reverse proxy configurations with automatic Let's Encrypt SSL (Caddy / Nginx).
 
 ---
 

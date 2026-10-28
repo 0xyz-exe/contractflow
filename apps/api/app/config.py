@@ -16,6 +16,15 @@ class Settings(BaseSettings):
     
     STORAGE_DIR: str = str(BASE_DIR / "storage")
     
+    # SMTP / External Email Provider (SendGrid / AWS SES / Custom)
+    SMTP_ENABLED: bool = False
+    SMTP_HOST: str = "smtp.sendgrid.net"
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_FROM: str = "no-reply@contractflow.org"
+    SMTP_TLS: bool = True
+    
     CORS_ORIGINS: list[str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",

@@ -1,0 +1,35 @@
+{$DOMAIN_NAME:localhost} {
+    # Automatic HTTPS managed by Caddy via Let's Encrypt / ZeroSSL
+    email {$ACME_EMAIL:admin@contractflow.org}
+
+    # Security Headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "geolocation=(), camera=(), microphone=()"
+    }
+
+    # API and Swagger Docs routing
+    handle /api/* {
+        reverse_proxy api:8000
+    }
+    handle /docs* {
+        reverse_proxy api:8000
+    }
+    handle /openapi.json {
+        reverse_proxy api:8000
+    }
+
+    # Frontend Single Page App routing
+    handle {
+        reverse_proxy web:80
+    }
+
+    # Log configuration
+    log {
+        output stdout
+        format console
+    }
+}

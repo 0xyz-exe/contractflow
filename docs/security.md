@@ -28,3 +28,9 @@ ContractFlow enforces defense-in-depth across the application and data layers.
 ### 5. Input Validation & Parameterized Queries
 - Pydantic v2 schemas validate all incoming JSON payloads.
 - SQLAlchemy 2.0 ORM uses parameterized SQL queries, eliminating SQL injection risks.
+
+### 6. Encryption in Transit & Modern TLS Configuration
+- Production deployments use automated TLS 1.3 / 1.2 termination with HTTP/2 and HTTP/3 support via Caddy or Nginx.
+- Pre-configured HTTP Strict Transport Security (`HSTS` max-age 31536000 with subdomains).
+- Hardened security response headers: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`.
+- Transactional emails enforce mandatory `STARTTLS` when connecting to upstream SMTP relays (SendGrid / Amazon SES).
