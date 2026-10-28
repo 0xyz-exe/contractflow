@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: contractflow-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://contractflow:securepass@db:5432/contractflow_db
+      - SECRET_KEY=docker-compose-production-secret-clm-key-2026
+      - STORAGE_DIR=/app/storage
+    volumes:
+      - contractflow_storage:/app/storage
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: contractflow-web
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+  db:
+    image: postgres:16-alpine
+    container_name: contractflow-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: contractflow_db
+      POSTGRES_USER: contractflow
+      POSTGRES_PASSWORD: securepass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  contractflow_storage:
+  postgres_data:
