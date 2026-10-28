@@ -28,6 +28,9 @@
 ### Pre-Approved Boilerplate Templates & Standard Clause Library
 ![ContractFlow Templates & Clauses](docs/images/templates.png)
 
+### Contractual Obligations & Statutory Compliance Milestones
+![ContractFlow Obligations](docs/images/obligations.png)
+
 ---
 
 ## 🚀 Key Features
@@ -155,4 +158,10 @@ tests/test_api.py::test_dashboard_metrics_and_csv_export PASSED          [100%]
 - **GitHub Repository:** [https://github.com/0xyz-exe/contractflow](https://github.com/0xyz-exe/contractflow)
 - **Clone with HTTPS:** `git clone https://github.com/0xyz-exe/contractflow.git`
 - **Clone with SSH:** `git clone git@github.com:0xyz-exe/contractflow.git`
-- **License:** MIT License
+- **Default Branch:** `main`
+- **Visibility:** Public
+- **Owner / Maintainer:** `0xyz-exe`
+- **Issue Tracker:** [https://github.com/0xyz-exe/contractflow/issues](https://github.com/0xyz-exe/contractflow/issues)
+- **Security Policy:** [SECURITY.md](SECURITY.md)
+- **Contribution Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **License:** [MIT License](LICENSE)
